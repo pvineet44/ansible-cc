@@ -1,0 +1,2 @@
+ansible -i inventory.ini  -m ping databases 
+ansible -i inventory.ini -m user -a "name=vineet state=present" all 
