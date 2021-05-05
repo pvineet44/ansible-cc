@@ -1,2 +1,5 @@
 ansible -i inventory.ini  -m ping databases 
-ansible -i inventory.ini -m user -a "name=vineet state=present" all 
+ansible -i inventory.ini -m user -a "name=vineet state=present"  --become --ask-become-pass  all 
+ansible -i inventory.ini -m package -a "name=nginx state=absent" --become --ask-become-pass  webservers
+
+ansible-playbook master.yaml -i inventory.ini
