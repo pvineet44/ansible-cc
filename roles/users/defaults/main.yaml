@@ -1,0 +1,9 @@
+users:
+  - username: pvineet44
+    status: present
+
+  - username: stark
+    status: present
+
+  - username: superman
+    status: present
