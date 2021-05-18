@@ -1,0 +1,16 @@
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+  - gnupg-agent
+
+docker_packages:
+  - docker-ce
+  - docker-ce-cli 
+  - containerd.io
+
+docker_compose_version: "1.27.4"
+repo: https://github.com/pvineet44/wordpress-lemp-docker.git
+repo_path: wordpress-lemp-docker
+domain_name: propell.ml

@@ -1,0 +1,10 @@
+
+- name: Build LEMP + Wordpress
+  hosts: webservers
+  become: true
+  gather_facts: no
+  roles:
+    - docker
+    - mysql
+    - phpmyadmin
+    - wordpress

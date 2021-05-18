@@ -1,0 +1,70 @@
+    - name: Update apt cache
+      apt: update_cache=yes cache_valid_time=3600
+
+    - name: Upgrade all apt packages
+      apt: upgrade=dist
+
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop: "{{ packages }}"
+
+    - name: Add an apt signing key for Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add apt repository for stable version
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: "{{ docker_packages }}"
+        state: present
+        update_cache: yes
+
+    - name: Add user to docker group
+      user:
+        name: "{{ansible_user}}"
+        group: docker
+
+    - name: Download docker-compose {{ docker_compose_version }}
+      get_url:
+        url : https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+        dest: ~/docker-compose
+        mode: '+x'
+
+    - name: Check docker-compose exists
+      stat: path=~/docker-compose
+      register: docker_compose
+
+    - name: Move docker-compose to /usr/local/bin/docker-compose
+      command: mv ~/docker-compose /usr/local/bin/docker-compose
+      when: docker_compose.stat.exists
+
+    - name: Fetching code
+      file:
+        path: ~/{{repo_path}}
+        state: absent
+    
+
+    - name: Clone bitbucket repo
+      git:
+        repo:  "{{ repo }}" 
+        dest: ~/{{ repo_path }}
+
+    - name: Cleanup and Initialization
+      shell:
+        chdir: ~/{{ repo_path }}
+        cmd: echo "y" | sh docker-init.sh
+    
+    
+    - name: Domain name setup
+      shell:
+        chdir: ~/{{ repo_path }}
+        cmd: sh set-domain.sh "{{domain_name}}"
+  

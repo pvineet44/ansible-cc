@@ -1,0 +1,9 @@
+- name: Build all images
+  shell:
+    chdir: ~/wordpress-lemp-docker
+    cmd: docker-compose build "{{ service_name }}"
+  
+- name: Start all containers 
+  shell:
+    chdir: ~/wordpress-lemp-docker
+    cmd: docker-compose up -d --no-deps --build "{{service_name}}"
