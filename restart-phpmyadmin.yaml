@@ -1,0 +1,6 @@
+
+- name: Restart PMA
+  hosts: webservers
+  become: true
+  roles:
+    - phpmyadmin-restart

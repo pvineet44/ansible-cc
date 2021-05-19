@@ -1,1 +1,3 @@
-docker restart "{{ container_name }}"
+- name: Domain name setup
+  shell:
+    cmd: docker restart "{{ container_name }}"

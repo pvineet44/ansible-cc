@@ -1,0 +1,6 @@
+
+- name: Restart Mysql
+  hosts: webservers
+  become: true
+  roles:
+    - mysql-restart
